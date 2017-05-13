@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">DLMAPP</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="main_first_page">首页</string>
+    <string name="main_secodet_page">第二页</string>
+    <string name="main_three_page">第三页</string>
+    <string name="main_four_page">第四页</string>
+
+    <string name="home_edittext_hint">请输入宝贝关键字</string>
+
+
+</resources>

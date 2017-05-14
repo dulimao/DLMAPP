@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.dlm.app.view.MyTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="25dp"
+    android:layout_height="25dp"
+    android:textColor="#ffc800"
+    android:textSize="13sp"
+    android:gravity="center"
+    android:text="20"
+    android:id="@+id/tv_item_calendar"
+    android:layout_margin="5dp">
+
+</com.dlm.app.view.MyTextView>

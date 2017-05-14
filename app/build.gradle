@@ -1,5 +1,10 @@
 apply plugin: 'com.android.application'
 
+def keystoreFile = file("keysotre.jks")
+def keystorePorperties = new Properties();
+keystorePorperties.load(new FileInputStream(keystoreFile))
+
+
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
@@ -10,12 +15,72 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        multiDexEnabled true //突破方法数95535的限制
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "umeng"] //添加默认渠道
     }
+
+    //添加签名文件配置
+    signingConfigs {
+        debug {}
+
+        release {
+            storeFile file("keysotre.jks")
+            storePassword "123456789"
+            keyAlias "dlmdyt"
+            keyPassword "123456789"
+//            storeFile keystorePorperties['storeFile']
+//            storePassword keystorePorperties['storePassword']
+//            keyAlias keystorePorperties['keyAlias']
+//            keyPassword keystorePorperties['keyPassword']
+
+        }
+
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled false//是否启用代码混淆
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+
+            //指定输出包的名称
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith(".apk")) {
+                        def fileName = "${variant.productFlavors[0].name}" + ".apk"
+                        output.outputFile = new File(outputFile.parent, fileName);
+                    }
+
+                }
+
+            }
         }
+    }
+
+    //添加多渠道
+    productFlavors {
+        xiaomi {
+            //  manifestPlaceholders = [UMENG_CHANNEL_VALUE:"xiaomi"] 第一种写法
+            //resValue("string", "app_name", "xiaomiapp") 替换资源，如：改变appname
+        }
+
+        wandoujia {
+            //manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+            //resValue("string", "app_name", "wandoujiaapp")
+        }
+
+//        okttp {
+//            applicationIdSuffix "okhttp"//给APPid添加后缀，使得在同一部手机上可以安装不同包名的安装包
+//            resValue("string", "app_name", "okhttp")
+//        }
+
+    }
+
+    //第二种写法，遍历各个渠道，直接替换名称name即可
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 }
 

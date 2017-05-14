@@ -23,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <meta-data android:value="YOUR_APP_KEY" android:name="UMENG_APPKEY"/><!--APP_KEY-->
+        <meta-data android:value="Channel ID" android:name="${UMENG_CHANNEL_VALUE}"/><!--占位符 渠道号-->
     </application>
 
 </manifest>
